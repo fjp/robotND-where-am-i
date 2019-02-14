@@ -9,8 +9,8 @@ The `my_robot` ROS package holds a robot, a white ball, and the world.
 The robot is a differential drive robot designed with the Unified Robot Description Format. 
 It has two sensors:
 
- - lidar
- - camera
+ - [lidar hokuyo](http://gazebosim.org/tutorials?tut=ros_gzplugins#GPULaser)
+ - [camera](http://gazebosim.org/tutorials?tut=ros_gzplugins#Camera)
 
 To steer the robot a Gazebo plugin is added for robot’s differential drive, lidar, and camera. 
 
@@ -41,8 +41,8 @@ The designed robot in this project will be used as a base model for all upcoming
     │   ├── meshes                     # meshes folder for sensors
     │   │   ├── hokuyo.dae
     │   ├── urdf                       # urdf folder for xarco files
-    │   │   ├── my_robot.gazebo
-    │   │   ├── my_robot.xacro
+    │   │   ├── rc_robot.gazebo
+    │   │   ├── rc_robot.xacro
     │   ├── world                      # world folder for world files
     │   │   ├── <yourworld>.world
     │   ├── CMakeLists.txt             # compiler instructions
@@ -59,3 +59,9 @@ The designed robot in this project will be used as a base model for all upcoming
     │   ├── package.xml                # package info
     └──
 ```
+
+## Plugins
+
+In the Udacity lesson a differential drive robot with two wheels was created.
+In the latest version of this repository the robot model has four wheels which requires another gazebo plugin to drive the robot around. 
+To steer the robot I used the [skid steering drive plugin](http://gazebosim.org/tutorials?tut=ros_gzplugins#SkidSteeringDrive).
