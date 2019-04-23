@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/workspace/robotND-where-am-i/catkin_ws/install/setup.sh
