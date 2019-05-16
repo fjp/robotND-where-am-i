@@ -66,7 +66,7 @@ This node is used to localize the robot in the provided map. This node 'links' t
 
 ### Move Base Node
 
-To move the robot around either the `teleop` node or the [move base](http://wiki.ros.org/move_base) node can be used. In a new terminal the `teleop` node can be executed with 
+To move the robot around either the `teleop` node or the [move base]() node can be used. In a new terminal the `teleop` node can be executed with 
 
 ```
 rosrun teleop_twist_keyboard teleop_twist_keyboard.py
@@ -76,14 +76,12 @@ Then it is possible to control the robot with the keyboard.
 
 With the `move base` it is possible to define a navigation goal position for the robot in the map shown in rviz, and the robot will navigate to that goal position.
 
-This node requires planners to move the robot around which is done in the `amcl.launch` file by setting the [`base_local_planner`](http://wiki.ros.org/base_local_planner) and [`base_global_planner`](http://wiki.ros.org/base_local_planner) parameters.
+This node requires planners to move the robot around which is done in the `amcl.launch` file by setting the `base_local_planner` and `base_global_planner` parameters.
 Additional parameters for these planners are provided from udacity and set using the rosparam tag.
 
 ```
 wget https://s3-us-west-1.amazonaws.com/udacity-robotics/Resource/where_am_i/config.zip
 ```
-
-Because I use a non-holonomic robot that is not able to rotate in place, I set the `min_in_place_vel_theta` parameter to zero.
 
 ## Localization Parameters
 
@@ -108,24 +106,28 @@ Additionally the `telop` node can be launched.
 
 ## Localization Results
 
-Start of the localization after placing the robot inside the building using gazebo simulator. At first the particles shown in red are spread uniformly around the robot.  
+Start of the localization after placing the robot inside the building using gazebo simulator. At first the particles shown in red are spread uniformly across the map.  
 
-![rviz01](./screenshots/rviz01.png)
-
-Using the Pose Estimation Tool of Rviz the robot is provided with an initial guess where it is located.
-
-![rviz02](./screenshots/rviz02.png)
-
-Moving further around the particles get more centerd. Moving the robot can be done as described above with the `teleop` or `move_base` nodes.  
-
-![rviz02](./screenshots/rviz03.png)
+![rviz01](./screenshots/rviz_screenshot_01.png)
 
 
+Setting a goal position using the 2D Nav Goal of rviz. We see that the robot moves to the specified goal and the particles of the amcl algorithm converge to more centerd regions.  
+
+![rviz02](./screenshots/rviz_screenshot_03.png)
+
+Moving further around the particles get more centerd. However, the robot is not able to fully localize itself because of the two rooms that look similar. 
+
+![rviz02](./screenshots/rviz_screenshot_04.png)
+
+
+To localize the robot it should drive through doors which are not present in the created pgm image. 
 In the my_world.world file a collision plugin is added in this project.
 
 ```
 <plugin filename="libcollision_map_creator.so" name="collision_map_creator"/>
 ```
+
+If I try to steer the robot through doors it gets flipped around because of this collision check.
 
 ## Project Folder Structure
 
@@ -141,13 +143,8 @@ In the my_world.world file a collision plugin is added in this project.
     │   ├── urdf                       # urdf folder for xarco files
     │   │   ├── rc_robot.gazebo
     │   │   ├── rc_robot.xacro
-    │   ├── config                     # config folder for global and local planners
-    │   │   ├── base_local_planner_params.yaml
-    │   │   ├── costmap_common_params.yaml
-    │   │   ├── global_costmap_params.yaml
-    │   │   ├── local_costmap_params.yaml
     │   ├── world                      # world folder for world files
-    │   │   ├── myworld.world
+    │   │   ├── <yourworld>.world
     │   ├── CMakeLists.txt             # compiler instructions
     │   ├── package.xml                # package info
     ├── pgm_map_creator                # pgm_map_creator package
